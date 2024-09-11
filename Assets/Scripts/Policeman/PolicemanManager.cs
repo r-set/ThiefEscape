@@ -3,21 +3,24 @@ using UnityEngine;
 
 public class PolicemanManager : MonoBehaviour
 {
-    [Header("Walk Settings")]
-    [SerializeField] private Vector3[] _waypointsCoordinates;
+    [Header("Walking")]
     [SerializeField] private float _waitTime = 2f;
     [SerializeField] private float _speedPoliceman = 1.5f;
 
-    //private Animator _animator;
+    [Header("Patrolling")]
+    [SerializeField] private Vector3[] _waypointsCoordinates;
+
+    private Animator _animator;
 
     private int _currentWaypointIndex = 0;
     private bool _isWaiting = false;
     private bool _isMoving = false;
+    private bool _isTurns = false;
     private bool _isFalling = false;
 
     private void Awake()
     {
-        //_animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -39,14 +42,13 @@ public class PolicemanManager : MonoBehaviour
             {
                 yield return StartCoroutine(MoveTowardsWaypoint());
 
-                _isWaiting = true;
-                _isMoving = false;
-                //_animator.SetBool("isMoving", _isMoving);
+                _isTurns = true;
 
-                yield return new WaitForSeconds(_waitTime);
-                _isWaiting = false;
+                _animator.SetBool("isMoving", false);
 
                 FlipMove();
+
+                yield return new WaitForSeconds(_waitTime);
 
                 _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypointsCoordinates.Length;
             }
@@ -63,7 +65,10 @@ public class PolicemanManager : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, _speedPoliceman * Time.deltaTime);
 
             _isMoving = true;
-            //_animator.SetBool("isMoving", _isMoving);
+            _isTurns = false;
+
+            _animator.SetBool("isMoving", _isMoving);
+            _animator.SetBool("isTurns", _isTurns);
 
             yield return null;
         }
@@ -71,17 +76,18 @@ public class PolicemanManager : MonoBehaviour
 
     private void FlipMove()
     {
+        //_animator.SetBool("isTurns", _isTurns);
         transform.Rotate(0f, 180f, 0f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Car"))
+        if (other.gameObject.CompareTag("Buton"))
         {
             _speedPoliceman = 0f;
 
             _isFalling = true;
-            //_animator.SetBool("isFalling", _isFalling);
+            _animator.SetBool("isFalling", _isFalling);
 
             Invoke("AccidentalFall", 2f);
         }
@@ -89,6 +95,6 @@ public class PolicemanManager : MonoBehaviour
 
     private void AccidentalFall()
     {
-        //_animator.enabled = false;
+        _animator.enabled = false;
     }
 }
