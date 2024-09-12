@@ -32,7 +32,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walking
+  m_Name: Jogging
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -46,7 +46,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: bc79420cb697fc74f85b232d3b6a64f8, type: 2}
+  m_Motion: {fileID: 7400000, guid: 91a85aa150fe1db42a21e056b0f21520, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -158,7 +158,7 @@ AnimatorStateMachine:
     m_Position: {x: 271.57925, y: 237.23618, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4103661618999291583}
-    m_Position: {x: 373.70483, y: 379.48135, z: 0}
+    m_Position: {x: 370, y: 380, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

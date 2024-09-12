@@ -128,10 +128,10 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0.9058824, g: 0.9058824, b: 0.9058824, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SideColor: {r: 0.4097098, g: 0.69361365, b: 0.8773585, a: 1}
+    - _SideColor: {r: 0.6792453, g: 0.8169812, b: 0.9056604, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TopColor: {r: 0.44624418, g: 0.70276654, b: 0.8679245, a: 1}
+    - _TopColor: {r: 0.33579564, g: 0.6890352, b: 0.9245283, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7894072180129581689
 MonoBehaviour:

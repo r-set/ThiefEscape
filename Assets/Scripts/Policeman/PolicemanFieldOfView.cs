@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldOfView : MonoBehaviour
+public class PolicemanFieldOfView : MonoBehaviour
 {
     public float viewRadius;
     [Range(0, 360)] public float viewAngle;
@@ -10,16 +10,26 @@ public class FieldOfView : MonoBehaviour
     [SerializeField] private LayerMask _targetMask;
     [SerializeField] private LayerMask _obstracleMask;
 
-    public List<Transform> VisibleTarget;
-    public float MeshResolution;
-    public MeshFilter viewMeshFilter;
-    private Mesh viewMesh;
+    public List<Transform> visibleTarget;
+    [SerializeField] private float _meshResolution;
+    [SerializeField] private MeshFilter _viewMeshFilter;
+    private Mesh _viewMesh;
+
+    [SerializeField]  private Color _baseViewMeshColor;
+    [SerializeField] private Color _yellowViewMeshColor;
+    [SerializeField] private Color _redViewMeshColor;
+
+    [SerializeField] private GameObject _redObject;
+    [SerializeField] private GameObject _yellowObject;
 
     private void Start()
     {
-        viewMesh = new Mesh();
-        viewMesh.name = "View Mesh";
-        viewMeshFilter.mesh = viewMesh;
+        _viewMesh = new Mesh();
+        _viewMesh.name = "View Mesh";
+        _viewMeshFilter.mesh = _viewMesh;
+
+        _baseViewMeshColor = _viewMeshFilter.GetComponent<Renderer>().material.color;
+
         StartCoroutine(nameof(FindTargetWithDelay), 0.2);
     }
 
@@ -39,7 +49,7 @@ public class FieldOfView : MonoBehaviour
 
     private void DrawFieldOfView()
     {
-        int stepCount = Mathf.RoundToInt(viewAngle * MeshResolution);
+        int stepCount = Mathf.RoundToInt(viewAngle * _meshResolution);
         float stepAngle = viewAngle / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
 
@@ -65,15 +75,16 @@ public class FieldOfView : MonoBehaviour
                 triangles[i * 3 + 2] = i + 2;
             }
         }
-        viewMesh.Clear();
-        viewMesh.vertices = vertices;
-        viewMesh.triangles = triangles;
-        viewMesh.RecalculateBounds();
+        _viewMesh.Clear();
+        _viewMesh.vertices = vertices;
+        _viewMesh.triangles = triangles;
+        _viewMesh.RecalculateBounds();
     }
 
     public void GetVisibleTarget()
     {
-        VisibleTarget.Clear();
+        visibleTarget.Clear();
+        bool targetVisible = false;
         Collider[] targetInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, _targetMask);
         for (int i = 0; i < targetInViewRadius.Length; i++)
         {
@@ -86,9 +97,25 @@ public class FieldOfView : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, _obstracleMask))
                 {
-                    VisibleTarget.Add(target);
+                    visibleTarget.Add(target);
+                    targetVisible = true;
+                    break;
                 }
             }
+        }
+
+
+        if (targetVisible)
+        {
+            _viewMeshFilter.GetComponent<Renderer>().material.color = _redViewMeshColor;
+
+            _redObject.SetActive(true);
+        }
+        else
+        {
+            _viewMeshFilter.GetComponent<Renderer>().material.color = _baseViewMeshColor;
+
+            _redObject.SetActive(false);
         }
     }
 
