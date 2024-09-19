@@ -34,7 +34,7 @@ public class CameraFieldOfView : MonoBehaviour
         float angleStep = 360f / segments;
 
         Vector3[] vertices = new Vector3[segments + 2];
-        int[] triangles = new int[segments * 6];
+        int[] triangles = new int[segments * 12];
 
         vertices[0] = Vector3.up * height;
         vertices[1] = Vector3.zero;
