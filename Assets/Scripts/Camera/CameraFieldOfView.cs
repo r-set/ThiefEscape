@@ -1,76 +1,83 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFieldOfView : MonoBehaviour
 {
-    public float coneHeight = 3f;
-    public float coneRadius = 2f;
+    [SerializeField] private float _coneHeight = 3f;
+    [SerializeField] private float _coneRadius = 2f;
+    [SerializeField] private int _segments = 12;
 
-    [SerializeField] private LayerMask _targetMask;
     [SerializeField] private LayerMask _obstacleMask;
+    [SerializeField] private LayerMask _playerLayer;
 
-    public List<Transform> visibleTargets = new List<Transform>();
     [SerializeField] private MeshFilter _coneMeshFilter;
-    private Mesh _coneMesh;
+    [SerializeField] private GameObject _circleObject;
 
-    [SerializeField] private Color _baseViewMeshColor;
-    [SerializeField] private Color _redViewMeshColor;
+    [SerializeField] private Color _searchViewMeshColor;
+    [SerializeField] private Color _alarmViewMeshColor;
+    private Mesh _coneMesh;
 
     private void Start()
     {
+        CapsuleCollider capsuleCollider = _circleObject.AddComponent<CapsuleCollider>();
+        capsuleCollider.isTrigger = true;
+        capsuleCollider.height = 4f;
+        capsuleCollider.radius = 0.5f;
+
         _coneMesh = new Mesh();
         _coneMesh.name = "Cone Mesh";
         _coneMeshFilter.mesh = _coneMesh;
 
-        CreateConeMesh(coneHeight, coneRadius);
-
-        StartCoroutine(FindTargetWithDelay(0.2f));
+        CreateConeMesh(_coneHeight, _coneRadius);
+        _coneMeshFilter.GetComponent<Renderer>().material.color = _searchViewMeshColor;
     }
 
     private void CreateConeMesh(float height, float radius)
     {
-        int segments = Mathf.Max(3, Mathf.RoundToInt(radius * 10f));
-        float angleStep = 360f / segments;
+        float angleStep = 360f / _segments;
 
-        Vector3[] vertices = new Vector3[segments + 2];
-        int[] triangles = new int[segments * 12];
+        Vector3[] vertices = new Vector3[_segments + 2];
+        int[] triangles = new int[_segments * 3 * 2];
 
         vertices[0] = Vector3.up * height;
         vertices[1] = Vector3.zero;
 
-        for (int i = 0; i < segments; i++)
+        for (int i = 0; i < _segments; i++)
         {
             float angle = Mathf.Deg2Rad * i * angleStep;
             float x = Mathf.Cos(angle) * radius;
             float z = Mathf.Sin(angle) * radius;
-            vertices[i + 2] = new Vector3(x, 0, z);
-        }
 
-        for (int i = 0; i < segments; i++)
-        {
-            int current = i + 2;
-            int next = (i + 1) % segments + 2;
+            Vector3 direction = new Vector3(x, 0, z).normalized;
+            Ray ray = new Ray(Vector3.up * height, direction);
 
-            if (i * 3 + 2 < triangles.Length)
+            if (Physics.Raycast(ray, out RaycastHit hit, height, _obstacleMask))
             {
-                triangles[i * 3] = 0;
-                triangles[i * 3 + 1] = current;
-                triangles[i * 3 + 2] = next;
+                vertices[i + 2] = hit.point;
+            }
+            else
+            {
+                vertices[i + 2] = new Vector3(x, 0, z);
             }
         }
 
-        for (int i = 0; i < segments; i++)
+        for (int i = 0; i < _segments; i++)
         {
             int current = i + 2;
-            int next = (i + 1) % segments + 2;
+            int next = (i + 1) % _segments + 2;
 
-            if (segments * 3 + i * 3 + 2 < triangles.Length)
-            {
-                triangles[segments * 3 + i * 3] = 1;
-                triangles[segments * 3 + i * 3 + 1] = next;
-                triangles[segments * 3 + i * 3 + 2] = current;
-            }
+            triangles[i * 3] = 0;
+            triangles[i * 3 + 1] = current;
+            triangles[i * 3 + 2] = next;
+        }
+
+        for (int i = 0; i < _segments; i++)
+        {
+            int current = i + 2;
+            int next = (i + 1) % _segments + 2;
+
+            triangles[_segments * 3 + i * 3] = 1;
+            triangles[_segments * 3 + i * 3 + 1] = next;
+            triangles[_segments * 3 + i * 3 + 2] = current;
         }
 
         _coneMesh.Clear();
@@ -79,44 +86,13 @@ public class CameraFieldOfView : MonoBehaviour
         _coneMesh.RecalculateNormals();
     }
 
-    private IEnumerator FindTargetWithDelay(float delay)
+    private void OnTriggerEnter(Collider other)
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(delay);
-            GetVisibleTargets();
-        }
+        Debug.Log("Triggered by: " + other.gameObject.name);
     }
 
-    private void GetVisibleTargets()
+    private void OnTriggerExit(Collider other)
     {
-        visibleTargets.Clear();
-        bool targetVisible = false;
-
-        Collider[] targetsInView = Physics.OverlapSphere(transform.position, coneRadius, _targetMask);
-
-        for (int i = 0; i < targetsInView.Length; i++)
-        {
-            Transform target = targetsInView[i].transform;
-            if (IsTargetInCone(target))
-            {
-                visibleTargets.Add(target);
-                targetVisible = true;
-                break;
-            }
-        }
-
-        _coneMeshFilter.GetComponent<Renderer>().material.color = targetVisible ? _redViewMeshColor : _baseViewMeshColor;
-    }
-
-    private bool IsTargetInCone(Transform target)
-    {
-        Vector3 directionToTarget = target.position - transform.position;
-        float distanceToTarget = directionToTarget.magnitude;
-        directionToTarget.y = 0;
-
-        float angleToTarget = Vector3.Angle(transform.forward, directionToTarget.normalized);
-
-        return distanceToTarget <= coneRadius && angleToTarget <= Mathf.Atan2(coneRadius, coneHeight) * Mathf.Rad2Deg;
+        Debug.Log("Exited by: " + other.gameObject.name);
     }
 }

@@ -15,9 +15,8 @@ public class PolicemanFieldOfView : MonoBehaviour
     [SerializeField] private MeshFilter _viewMeshFilter;
     private Mesh _viewMesh;
 
-    [SerializeField]  private Color _baseViewMeshColor;
-    [SerializeField] private Color _yellowViewMeshColor;
-    [SerializeField] private Color _redViewMeshColor;
+    [SerializeField]  private Color _searchViewMeshColor;
+    [SerializeField] private Color _alarmViewMeshColor;
 
     [SerializeField] private GameObject _redObject;
     [SerializeField] private GameObject _yellowObject;
@@ -28,7 +27,7 @@ public class PolicemanFieldOfView : MonoBehaviour
         _viewMesh.name = "View Mesh";
         _viewMeshFilter.mesh = _viewMesh;
 
-        _baseViewMeshColor = _viewMeshFilter.GetComponent<Renderer>().material.color;
+        _viewMeshFilter.GetComponent<Renderer>().material.color = _searchViewMeshColor;
 
         StartCoroutine(nameof(FindTargetWithDelay), 0.2);
     }
@@ -107,13 +106,13 @@ public class PolicemanFieldOfView : MonoBehaviour
 
         if (targetVisible)
         {
-            _viewMeshFilter.GetComponent<Renderer>().material.color = _redViewMeshColor;
+            _viewMeshFilter.GetComponent<Renderer>().material.color = _alarmViewMeshColor;
 
             _redObject.SetActive(true);
         }
         else
         {
-            _viewMeshFilter.GetComponent<Renderer>().material.color = _baseViewMeshColor;
+            _viewMeshFilter.GetComponent<Renderer>().material.color = _searchViewMeshColor;
 
             _redObject.SetActive(false);
         }
