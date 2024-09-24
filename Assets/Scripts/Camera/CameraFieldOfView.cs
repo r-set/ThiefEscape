@@ -18,11 +18,6 @@ public class CameraFieldOfView : MonoBehaviour
 
     private void Start()
     {
-        CapsuleCollider capsuleCollider = _circleObject.AddComponent<CapsuleCollider>();
-        capsuleCollider.isTrigger = true;
-        capsuleCollider.height = 4f;
-        capsuleCollider.radius = 0.5f;
-
         _coneMesh = new Mesh();
         _coneMesh.name = "Cone Mesh";
         _coneMeshFilter.mesh = _coneMesh;
@@ -84,15 +79,5 @@ public class CameraFieldOfView : MonoBehaviour
         _coneMesh.vertices = vertices;
         _coneMesh.triangles = triangles;
         _coneMesh.RecalculateNormals();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Triggered by: " + other.gameObject.name);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        Debug.Log("Exited by: " + other.gameObject.name);
     }
 }

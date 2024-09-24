@@ -1,59 +1,9 @@
 fileFormatVersion: 2
-guid: 0f5ee9c123d85cd488e940bc149b36f4
+guid: 2981825c1cea4d84f87c33ff8cb8d6ff
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: efaa3f7e0d245f144979708133fd42ce, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.002
-    second: {fileID: 2100000, guid: 93586074c0897d54d88ed8218d18955c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.003
-    second: {fileID: 2100000, guid: 22a017d3369d68f4197c80055e45d03c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.004
-    second: {fileID: 2100000, guid: 64074e3dafaffc84e9d9893797e31029, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.008
-    second: {fileID: 2100000, guid: 217f4505cd4570642b3820d18ee61471, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.011
-    second: {fileID: 2100000, guid: 38d49c1be06871d4abca9f9e321e23bb, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.012
-    second: {fileID: 2100000, guid: 25ccb1a8b4001884eabe81adda8a0a6f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.013
-    second: {fileID: 2100000, guid: 0891d5708fcad9143a4276d71c3193f1, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.014
-    second: {fileID: 2100000, guid: 70ff5995c67613d4f95476a1099db061, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.015
-    second: {fileID: 2100000, guid: 1ff564503a93b6548b3ff439a9d5138f, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -85,7 +35,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.2
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -140,14 +90,14 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.2
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
