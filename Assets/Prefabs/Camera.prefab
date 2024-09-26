@@ -207,8 +207,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coneMeshFilter: {fileID: 2998132072444610912}
   _circleMeshFilter: {fileID: 8124397437906127158}
-  _searchViewMeshColor: {r: 0.99215686, g: 0.9764706, b: 0, a: 0.19607843}
-  _alarmViewMeshColor: {r: 1, g: 0, b: 0, a: 0.19607843}
+  _searchViewMeshColor: {r: 0.99215686, g: 0.9764706, b: 0, a: 0.2509804}
+  _alarmViewMeshColor: {r: 1, g: 0, b: 0, a: 0.2509804}
 --- !u!1 &6708924005085764715
 GameObject:
   m_ObjectHideFlags: 0
