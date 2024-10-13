@@ -10,10 +10,7 @@ public class CameraFieldOfView : MonoBehaviour
     [SerializeField] private LayerMask _playerLayer;
 
     [SerializeField] private MeshFilter _coneMeshFilter;
-    [SerializeField] private GameObject _circleObject;
 
-    [SerializeField] private Color _searchViewMeshColor;
-    [SerializeField] private Color _alarmViewMeshColor;
     private Mesh _coneMesh;
 
     private void Start()
@@ -23,7 +20,6 @@ public class CameraFieldOfView : MonoBehaviour
         _coneMeshFilter.mesh = _coneMesh;
 
         CreateConeMesh(_coneHeight, _coneRadius);
-        _coneMeshFilter.GetComponent<Renderer>().material.color = _searchViewMeshColor;
     }
 
     private void CreateConeMesh(float height, float radius)
